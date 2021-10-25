@@ -1,0 +1,77 @@
+#-------------------------------|
+# Author: Indrajit Maity        |
+# email: i.maity@imperial.ac.uk |
+#-------------------------------|
+
+# Dakota Input File: kc_hetero.in
+# Usage:
+# Check your input file
+# dakota -input kc_hetero.in -check
+# Running the calculations 
+#   dakota -i kc_moire.in -o kc_moire.out > kc_moire.stdout
+
+
+# To DO:
+# - Device a strategy that guesses the initial 
+# - Play with different strategy of optimizing 
+
+# Major Keywords briefly mentioned.
+# Order of these keywords don't really matter
+#------------------------------
+
+#Keyword1: environment
+# Primarily controls graphics and data output
+environment
+  tabular_data
+    tabular_data_file = 'parameters.dat'
+
+#Keyword2: methods
+# Controls methods employed by dakota and related options
+method
+  conmin_frcg
+    convergence_tolerance = 1e-10
+    max_iterations = 10000
+
+#Keyword3: Model
+# Model type employed
+model
+  single
+
+#Keyword4: variables
+# Details (number, type, characteristics) of the par-
+# meters varied by DAKOTA. Continuous, design, or sta
+# te variables. 
+variables
+  continuous_design = 32
+    initial_point      4.262768 7.989312 4.847532 0.000000 27.588256 0.958662 2.472475 62.353935    8.870712 1.326323 1.166123 0.105489 1.599864 1.206091 1.000000 3.675476    5.160548 -1.197274 -0.499764 -0.009833 4.610436 0.765856 2.044508 6.238915   5.090209 -1.159503 -0.499078 -0.009833 4.610743 0.765392 2.041991 6.239365 
+    lower_bounds       0.0  0.0  0.0  0.0  0.0  0.2  1.0  1.0    0.0  -10.0  -5.0  -5.0  0.0  0.2  1.0  1.0    0.0  -10.0  -5.0  -5.0  0.0  0.2  1.0  1.0    0.0  -10.0  -5.0  -5.0  0.0  0.2  1.0  1.0  
+    upper_bounds       40.0  50.0  40.0  40.0  100.0  2.8  35.0  100.0    40.0  50.0  40.0  40.0  100.0  2.8  35.0  100.0    40.0  50.0  40.0  40.0  100.0  2.8  35.0  100.0    40.0  50.0  40.0  40.0  100.0  2.8  35.0  100.0
+    descriptors       'z0.TeSe'    'C0.TeSe'    'C2.TeSe'     'C4.TeSe'   'C.TeSe'     'delta.TeSe'  'lambda.TeSe' 'A.TeSe'    'z0.MoW' 'C0.MoW' 'C2.MoW' 'C4.MoW'  'C.MoW'  'delta.MoW'  'lambda.MoW' 'A.MoW'     'z0.MoSe' 'C0.MoSe' 'C2.MoSe' 'C4.MoSe'  'C.MoSe'  'delta.MoSe'  'lambda.MoSe' 'A.MoSe'    'z0.TeW' 'C0.TeW' 'C2.TeW' 'C4.TeW'  'C.TeW'  'delta.TeW'  'lambda.TeW' 'A.TeW'
+
+#Keyword5: interface
+# Simulation code used for mapping variables into
+# responses and how DAKOTA will pass to and from
+# that code.
+# direct:within  DAKOTA,
+# fork/system: outside DAKOTA 
+interface
+  analysis_drivers = 'comp_dft_ff.py'
+    fork
+    parameters_file = 'params.in'
+    results_file    = 'results.out'
+    file_tag
+    file_save
+
+#Keyword6: responses
+# Specifies data type fed back to DAKOTA.
+# Typical usages are as follows- 
+# - objective functions: for optimization
+# - calibration terms in calibration
+# - response functions: for senstivity analysis.
+responses
+  objective_functions = 1
+  numerical_gradients
+    method_source dakota
+    interval_type forward
+    fd_step_size = 1.e-4
+  no_hessians
