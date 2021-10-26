@@ -1,0 +1,28 @@
+#Initialize--
+#general settings
+units           metal
+dimension       3
+box tilt        large
+atom_style      atomic
+
+# structure
+boundary        p p p
+read_data       lammps.dat_disp
+
+# potentials
+pair_style hybrid/overlay sw sw kolmogorov/crespi/z 14.0 kolmogorov/crespi/z 14.0 kolmogorov/crespi/z 14.0 kolmogorov/crespi/z 14.0 lj/cut 10.0
+
+# Intralayer Interaction
+pair_coeff * * sw 1 tmd.sw Mo Te Te NULL NULL NULL
+pair_coeff * * sw 2 tmd.sw NULL NULL NULL W Se Se
+
+# Interlayer Interaction
+pair_coeff 2 6 kolmogorov/crespi/z 1 TeSe.KC NULL Te NULL  NULL NULL Se
+pair_coeff 1 4 kolmogorov/crespi/z 2 MoW.KC Mo NULL NULL  W NULL NULL
+pair_coeff 1 6 kolmogorov/crespi/z 3 MoSe.KC Mo NULL NULL  NULL NULL Se
+pair_coeff 2 4 kolmogorov/crespi/z 4 TeW.KC NULL Te NULL  W NULL NULL
+pair_coeff * * lj/cut 0.0 3.0
+neighbor        2.0 bin
+neigh_modify every 1 delay 0 check yes
+
+run		0

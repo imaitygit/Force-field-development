@@ -1,0 +1,1 @@
+~/codes/lammps-29Sep2021/src/lmp_serial < lammps.in > lammps.out
