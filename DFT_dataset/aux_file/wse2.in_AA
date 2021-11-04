@@ -1,0 +1,43 @@
+&CONTROL
+  calculation  = "scf",
+  prefix       = "slwse2",
+  pseudo_dir   = "./",
+  outdir       = "./",
+  tstress      = .TRUE
+/
+&SYSTEM
+  ibrav     = 0,
+  celldm(1) = 6.71422853,
+  nat       = 3,
+  ntyp      = 2,
+  ecutwfc   = 70,
+  nspin     = 2
+  tot_magnetization = 0.0
+/
+&ELECTRONS
+  conv_thr    = 1.D-8,
+  mixing_beta = 0.3D0,
+/
+&IONS
+ ion_dynamics='bfgs',
+/
+&CELL
+ cell_dynamics='bfgs',
+ cell_dofree='2Dxy'
+ press=0.0,
+/
+CELL_PARAMETERS {alat}
+1.0 0.0 0.0
+0.5 0.8660254 0.0
+0.0  0.0   7.5301204826
+
+ATOMIC_SPECIES
+W 183.84   W.upf
+Se 78.96   Se.upf
+
+ATOMIC_POSITIONS (crystal)
+W             0.0000000000        0.0000000000        0.1682715866
+Se            0.6666666666        0.6666666666        0.2281442783
+Se            0.6666666666        0.6666666666        0.1084004621
+K_POINTS {automatic}
+12 12 1 0 0 0
